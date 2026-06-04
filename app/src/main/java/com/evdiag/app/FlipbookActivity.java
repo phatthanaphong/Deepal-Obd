@@ -1,7 +1,7 @@
 package com.evdiag.app;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -13,7 +13,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class FlipbookActivity extends Activity {
+public class FlipbookActivity extends AppCompatActivity {
 
     private WebView webView;
 

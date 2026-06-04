@@ -1,7 +1,7 @@
 package com.evdiag.app;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -19,7 +19,7 @@ import android.webkit.WebViewClient;
 
 import java.io.ByteArrayInputStream;
 
-public class MainActivity extends Activity {
+public class MainActivity extends androidx.appcompat.app.AppCompatActivity {
 
     private WebView webView;
     private StringBuilder errorLog = new StringBuilder();
