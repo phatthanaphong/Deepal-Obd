@@ -1,7 +1,6 @@
 package com.evdiag.app;
 
 import android.annotation.SuppressLint;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -12,6 +11,8 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import androidx.appcompat.app.AppCompatActivity;
+import java.io.ByteArrayInputStream;
 
 public class FlipbookActivity extends AppCompatActivity {
 
@@ -21,17 +22,14 @@ public class FlipbookActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
-
         setContentView(R.layout.activity_main);
 
         webView = findViewById(R.id.webview);
-
         WebSettings s = webView.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
@@ -40,28 +38,16 @@ public class FlipbookActivity extends AppCompatActivity {
         s.setBuiltInZoomControls(false);
         s.setDisplayZoomControls(false);
         s.setAllowFileAccess(true);
-        s.setAllowContentAccess(true);
         s.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        s.setMediaPlaybackRequiresUserGesture(false);
         s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        s.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        s.setEnableSmoothTransition(false);
 
         webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
-                String url = req.getUrl().toString();
-                if (url.startsWith("file://") || url.startsWith("about:")) {
-                    view.loadUrl(url);
-                }
-                return true;
-            }
-
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest req) {
                 String url = req.getUrl().toString();
                 if (!url.startsWith("file://") && !url.startsWith("about:")) {
-                    return new WebResourceResponse("text/plain", "utf-8", null);
+                    return new WebResourceResponse("text/plain", "utf-8",
+                        new ByteArrayInputStream("".getBytes()));
                 }
                 return super.shouldInterceptRequest(view, req);
             }
@@ -82,7 +68,7 @@ public class FlipbookActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override protected void onPause() { super.onPause(); webView.onPause(); }
-    @Override protected void onResume() { super.onResume(); webView.onResume(); }
-    @Override protected void onDestroy() { webView.destroy(); super.onDestroy(); }
+    @Override protected void onPause()   { super.onPause();   webView.onPause();  }
+    @Override protected void onResume()  { super.onResume();  webView.onResume(); }
+    @Override protected void onDestroy() { webView.destroy(); super.onDestroy();  }
 }
